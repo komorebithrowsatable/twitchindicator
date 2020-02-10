@@ -14,6 +14,9 @@ Item {
     Plasmoid.switchWidth: units.gridUnit * 10
     Plasmoid.switchHeight: units.gridUnit * 5
 
+    property int updateInterval: plasmoid.configuration.updateInterval
+    property string twitchAccountLogin: plasmoid.configuration.twitchAccountLogin
+
     function log(message, values) {
         console.log(message);
         console.log(JSON.stringify(values));
@@ -52,7 +55,8 @@ Item {
         
         function updateChannelsData() {
             streamsModel.followedChannels = {};
-            let user = "komorebithrowsatable";
+            let user = root.twitchAccountLogin;
+            if (!user) return;
             requestUrl("GET", "https://api.twitch.tv/helix/users?login="+user, {
                 responseType: "json", 
                 headers: {"Client-ID": "yoilemo3cudfjaqm6ukbew2g2mgm2v"}
@@ -94,13 +98,8 @@ Item {
     
     
     Plasmoid.compactRepresentation: MouseArea {
-        anchors.fill: parent
-        Layout.maximumWidth: isVertical ? Infinity : Layout.minimumWidth
-        Layout.preferredWidth: isVertical ? undefined : Layout.minimumWidth
-
-        Layout.minimumHeight: isVertical ? label.height : theme.smallestFont.pixelSize
-        Layout.maximumHeight: isVertical ? Layout.minimumHeight : Infinity
-        Layout.preferredHeight: isVertical ? Layout.minimumHeight : theme.mSize(theme.defaultFont).height * 2
+        Layout.preferredWidth: mainIcon.width+mainCounter.width+10;
+        Layout.preferredHeight: mainIcon.height
         onClicked: plasmoid.expanded = !plasmoid.expanded;
         
         Image {
@@ -108,6 +107,7 @@ Item {
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.bottom: parent.bottom
+            anchors.margins: units.gridUnit*3
             width: height
             source: "twitch.png"
         }
@@ -117,8 +117,8 @@ Item {
             anchors.left: mainIcon.right
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            anchors.right: parent.right
             text: steamsModel.count
+            width: 100
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             wrapMode: Text.NoWrap
@@ -206,6 +206,17 @@ Item {
             }
         }
         
+    }
+
+    Timer {
+        interval: root.updateInterval*60000
+        repeat: true
+        running: true
+        onTriggered: streamsModel.updateStreams()
+    }
+
+    onTwitchAccountLoginChanged: {
+        streamsModel.updateChannelsData();
     }
 
     Component.onCompleted: {
