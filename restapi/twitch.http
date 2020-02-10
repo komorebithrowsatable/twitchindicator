@@ -1,0 +1,15 @@
+
+### get user id
+
+GET https://api.twitch.tv/helix/users?login=komorebithrowsatable
+Client-ID: yoilemo3cudfjaqm6ukbew2g2mgm2v
+
+### get user follows 
+
+GET https://api.twitch.tv/helix/users/follows?from_id=49442986
+Client-ID: yoilemo3cudfjaqm6ukbew2g2mgm2v
+
+### find out if stream is online
+
+GET https://api.twitch.tv/helix/streams?user_id=265940345&user_id=28633177&user_id=36481935
+Client-ID: yoilemo3cudfjaqm6ukbew2g2mgm2v

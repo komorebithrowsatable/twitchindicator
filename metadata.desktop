@@ -1,0 +1,18 @@
+[Desktop Entry]
+Name=Twitch Indicator
+Comment=Displays a list of live channels you're following on Twitch
+
+Icon=globe
+Type=Service
+
+X-KDE-PluginInfo-Author=Sergei Markov
+X-KDE-PluginInfo-Email=markovs.i.mail@gmail.com
+X-KDE-PluginInfo-Category=Multimedia
+X-KDE-PluginInfo-License=WTFPL
+X-KDE-PluginInfo-Name=org.github.komorebi.twitchindicator
+#X-KDE-PluginInfo-Website=https://github.com/Zren/plasma-applet-twitch-indicator
+#X-KDE-PluginInfo-KdeStoreId=998901
+X-KDE-PluginInfo-Version=1
+X-KDE-ServiceTypes=Plasma/Applet
+X-Plasma-API=declarativeappletscript
+X-Plasma-MainScript=ui/main.qml
