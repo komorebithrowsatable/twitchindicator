@@ -98,18 +98,20 @@ Item {
     
     
     Plasmoid.compactRepresentation: MouseArea {
-        Layout.preferredWidth: mainIcon.width+mainCounter.width+10;
-        Layout.preferredHeight: mainIcon.height
         onClicked: plasmoid.expanded = !plasmoid.expanded;
-        
+        Layout.preferredWidth: mainIcon.width+mainCounter.implicitWidth+5;
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+
         Image {
             id: mainIcon
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            anchors.margins: units.gridUnit*3
+            anchors.margins: units.gridUnit*0.1
             width: height
             source: "twitch.png"
+            opacity: (streamsModel.count==0) ? 0.4 : 0.8
         }
 
         PlasmaComponents.Label {
@@ -117,13 +119,14 @@ Item {
             anchors.left: mainIcon.right
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: steamsModel.count
-            width: 100
+            anchors.right: parent.right
+            text: streamsModel.count
+            fontSizeMode: Text.VerticalFit
+            font.pointSize: 30
+            minimumPointSize: theme.smallestFont.pointSize
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-            wrapMode: Text.NoWrap
-            fontSizeMode: Text.VerticalFit
-            minimumPointSize: theme.smallestFont.pointSize
+            opacity: (streamsModel.count==0) ? 0.4 : 1
         }
     }
 
