@@ -38,6 +38,7 @@ Item {
 		}
 		xhr.onerror = function(e) {
 			log("Error executing the request: network error", {method: method, url: url, options: options});
+            retryConnection.restart();
 		}
 		if (options.responseType) xhr.responseType = options.responseType;
 		if (options.headers) {
@@ -239,6 +240,14 @@ Item {
         repeat: true
         running: true
         onTriggered: streamsModel.updateStreams()
+    }
+
+    Timer {
+        id: retryConnection
+        interval: 30000
+        repeat: false
+        running: false
+        onTriggered: streamsModel.updateChannelsData();
     }
 
     onTwitchAccountLoginChanged: {
