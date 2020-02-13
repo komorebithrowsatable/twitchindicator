@@ -53,7 +53,7 @@ Item {
         id: streamsModel
         property var followedChannels: {}
         
-        function updateChannelsData() {
+        function updateChannelsData() {     //TODO: add support of more than 100 follows/channels
             streamsModel.followedChannels = {};
             let user = root.twitchAccountLogin;
             if (!user) return;
@@ -98,35 +98,41 @@ Item {
     
     
     Plasmoid.compactRepresentation: MouseArea {
+        Layout.preferredWidth: intRow.implicitWidth
+        Layout.minimumWidth: intRow.implicitWidth
+        Layout.preferredHeight: 32
         onClicked: plasmoid.expanded = !plasmoid.expanded;
-        Layout.preferredWidth: mainIcon.width+mainCounter.implicitWidth+5;
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
 
-        Image {
-            id: mainIcon
-            anchors.left: parent.left
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.margins: units.gridUnit*0.1
-            width: height
-            source: "twitch.png"
-            opacity: (streamsModel.count==0) ? 0.4 : 0.8
-        }
+        Row {
+            id: intRow
+            anchors.fill: parent
+            spacing: 4
+            anchors.margins: units.gridUnit*0.2
 
-        PlasmaComponents.Label {
-            id: mainCounter
-            anchors.left: mainIcon.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
-            text: streamsModel.count
-            fontSizeMode: Text.VerticalFit
-            font.pointSize: 30
-            minimumPointSize: theme.smallestFont.pointSize
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            opacity: (streamsModel.count==0) ? 0.4 : 1
+            Image {
+                id: mainIcon
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                width: height
+                source: "twitch.png"
+                opacity: (streamsModel.count==0) ? 0.4 : 0.8
+            }
+
+            PlasmaComponents.Label {
+                id: mainCounter
+                anchors.verticalCenter: parent.verticalCenter
+                height: parent.height
+                text: streamsModel.count
+                fontSizeMode: Text.VerticalFit
+                font.pixelSize: 300
+                minimumPointSize: theme.smallestFont.pointSize
+                horizontalAlignment: Text.AlignHCenter
+                opacity: (streamsModel.count==0) ? 0.4 : 1
+                width: contentWidth+(units.gridUnit*0.1)
+                smooth: true
+                wrapMode: Text.NoWrap
+                
+            }
         }
     }
 
@@ -134,7 +140,7 @@ Item {
     
     Plasmoid.fullRepresentation: Item {
         Layout.preferredWidth: units.gridUnit * 25
-        Layout.preferredHeight: Screen.height * 0.5
+        Layout.preferredHeight: Screen.height * 0.45
 
         Component {
                 id: streamDelegate
