@@ -8,7 +8,7 @@
       		<max>990</max>
 		</entry>
         <entry name="twitchAccountLogin" type="String">
-			<default>"Some"</default>
+			<default></default>
 		</entry>
 	</group>
 </kcfg>

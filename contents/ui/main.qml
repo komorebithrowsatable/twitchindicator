@@ -114,7 +114,7 @@ Item {
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 width: height
-                source: "twitch.png"
+                source: "../images/twitch.png"
                 opacity: (streamsModel.count==0) ? 0.4 : 0.8
             }
 
@@ -177,20 +177,37 @@ Item {
                         visible: false
                     }
 
-                    PlasmaComponents.Label {
-                        id: channelName
+                    Item {
+                        id: channelHeader
                         anchors.left: channelIcon.right
                         anchors.right: parent.right
                         anchors.top: parent.top
                         anchors.leftMargin: units.largeSpacing
                         height: parent.height/2
-                        text: model.user_name
-                        elide: Text.ElideRight
+
+                        PlasmaComponents.Label {
+                            id: viewersCount
+                            anchors.right: parent.right
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            width: implicitWidth
+                            text: model.viewer_count
+                        }
+
+                        PlasmaComponents.Label {
+                            id: channelName
+                            text: model.user_name
+                            elide: Text.ElideRight
+                            anchors.left: parent.left
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            anchors.right: viewersCount.left
+                        }
                     }
 
                     PlasmaComponents.Label {
                         id: streamName
-                        anchors.top: channelName.bottom
+                        anchors.top: channelHeader.bottom
                         anchors.left: channelIcon.right
                         anchors.leftMargin: units.largeSpacing
                         anchors.bottom: parent.bottom

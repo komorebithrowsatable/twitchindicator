@@ -18,7 +18,7 @@ Item {
 
         RowLayout {
             Label {
-                text: "Twitch account login"
+                text: "Your twitch account login"
             }
             TextField {
 			    id: twitchAccountLogin
