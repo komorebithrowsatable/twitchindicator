@@ -1,2 +1,4 @@
 #!/bin/bash
-zip package.plasmoid package
+cd package
+zip -r ../package.plasmoid *
+cd ..
