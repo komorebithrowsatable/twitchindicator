@@ -239,7 +239,7 @@ Item {
         interval: root.updateInterval*60000
         repeat: true
         running: true
-        onTriggered: streamsModel.updateStreams()
+        onTriggered: streamsModel.updateChannelsData();
     }
 
     Timer {
