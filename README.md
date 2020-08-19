@@ -1,7 +1,6 @@
 # twitchindicator
 
 Displays active streams from channels you're following on twitch.
-It uses only your login name and nothing else since twitch api allows to see this data just by passing client id.
 Now it's a beta version, so don't hesitate to report bugs and request some improvements.
 
 Roadmap:
