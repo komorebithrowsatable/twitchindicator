@@ -7,7 +7,7 @@
 			<min>20</min>
       		<max>990</max>
 		</entry>
-        <entry name="twitchAccountLogin" type="String">
+        <entry name="twitchToken" type="String">
 			<default></default>
 		</entry>
 	</group>

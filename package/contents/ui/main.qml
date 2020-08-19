@@ -15,7 +15,7 @@ Item {
     Plasmoid.switchHeight: units.gridUnit * 5
 
     property int updateInterval: plasmoid.configuration.updateInterval
-    property string twitchAccountLogin: plasmoid.configuration.twitchAccountLogin
+    property string twitchToken: plasmoid.configuration.twitchToken
 
     function log(message, values) {
         console.log(message);
@@ -50,31 +50,32 @@ Item {
 		xhr.send(options.postData ? options.postData : undefined);
     }
 
+    function twitchRequest(endpoint, callback) {
+        if (!twitchToken) return;
+        requestUrl("GET", "https://api.twitch.tv/helix/"+endpoint, {
+            responseType: "json",
+            headers: {
+                "Client-ID": "yoilemo3cudfjaqm6ukbew2g2mgm2v",
+                "Authorization": "Bearer "+twitchToken
+            }
+        }, callback);
+    }
+
     ListModel {
         id: streamsModel
         property var followedChannels: {}
         
         function updateChannelsData() {     //TODO: add support of more than 100 follows/channels
             streamsModel.followedChannels = {};
-            let user = root.twitchAccountLogin;
-            if (!user) return;
-            requestUrl("GET", "https://api.twitch.tv/helix/users?login="+user, {
-                responseType: "json", 
-                headers: {"Client-ID": "yoilemo3cudfjaqm6ukbew2g2mgm2v"}
-            }, function(res) {
+            console.log("Starting update");
+            twitchRequest("users", function(res) {
                 let userId = res.data[0].id;
-                requestUrl("GET", "https://api.twitch.tv/helix/users/follows?from_id="+userId, {
-                    responseType: "json",
-                    headers: {"Client-ID": "yoilemo3cudfjaqm6ukbew2g2mgm2v"}
-                }, function(res) {
+                twitchRequest("users/follows?from_id="+userId, function(res) {
                     let query = [];
                     for (let followed of res.data) {
                         query.push("id="+followed.to_id);
                     }
-                    requestUrl("GET", "https://api.twitch.tv/helix/users?"+query.join("&"), {
-                        responseType: "json",
-                        headers: {"Client-ID": "yoilemo3cudfjaqm6ukbew2g2mgm2v"},
-                    }, function(res) {
+                    twitchRequest("users?"+query.join("&"), function(res) {
                         for (let channel of res.data) streamsModel.followedChannels[channel.id] = channel;
                         streamsModel.updateStreams();
                     });
@@ -85,10 +86,7 @@ Item {
         function updateStreams() {
             let query = [];
             for (let channelId in streamsModel.followedChannels) query.push("user_id="+channelId);
-            requestUrl("GET", "https://api.twitch.tv/helix/streams?"+query.join("&"), {
-                responseType: "json",
-                headers: {"Client-ID": "yoilemo3cudfjaqm6ukbew2g2mgm2v"},
-            }, function(res) {
+            twitchRequest("streams?"+query.join("&"), function(res) {
                 streamsModel.clear();
                 for (let stream of res.data) {
                     streamsModel.append(stream);
@@ -250,7 +248,7 @@ Item {
         onTriggered: streamsModel.updateChannelsData();
     }
 
-    onTwitchAccountLoginChanged: {
+    onTwitchTokenChanged: {
         streamsModel.updateChannelsData();
     }
 
