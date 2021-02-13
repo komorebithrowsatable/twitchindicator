@@ -70,7 +70,7 @@ Item {
             console.log("Starting update");
             twitchRequest("users", function(res) {
                 let userId = res.data[0].id;
-                twitchRequest("users/follows?from_id="+userId, function(res) {
+                twitchRequest("users/follows?from_id="+userId+"&first=100", function(res) {
                     let query = [];
                     for (let followed of res.data) {
                         query.push("id="+followed.to_id);
