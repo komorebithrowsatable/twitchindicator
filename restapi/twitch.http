@@ -5,6 +5,14 @@ GET https://api.twitch.tv/helix/users
 Client-ID: yoilemo3cudfjaqm6ukbew2g2mgm2v
 Authorization: Bearer 38g302v20qlnzouwhqd4lf9hjdvzpc
 
+
+### get user info
+
+GET https://id.twitch.tv/oauth2/userinfo
+Client-ID: yoilemo3cudfjaqm6ukbew2g2mgm2v
+Authorization: Bearer 38g302v20qlnzouwhqd4lf9hjdvzpc
+
+
 ### get user follows 
 
 GET https://api.twitch.tv/helix/users/follows?from_id=49442986
