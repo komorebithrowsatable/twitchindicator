@@ -204,16 +204,36 @@ Item {
                         }
                     }
 
-                    PlasmaComponents.Label {
-                        id: streamName
+                    Item {
+                        id: channelSubheader
                         anchors.top: channelHeader.bottom
                         anchors.left: channelIcon.right
                         anchors.leftMargin: units.largeSpacing
-                        anchors.bottom: parent.bottom
                         anchors.right: parent.right
-                        text: model.title
-                        elide: Text.ElideRight
-                        opacity: 0.6
+                        anchors.bottom: parent.bottom
+
+                        PlasmaComponents.Label {
+                            id: streamGame
+                            anchors.right: parent.right
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            text: model.game_name
+                            elide: Text.ElideLeft
+                            width: implicitWidth
+                            opacity: 0.6
+                        }
+
+                        PlasmaComponents.Label {
+                            id: streamName
+                            anchors.top: parent.top
+                            anchors.left: parent.left
+                            anchors.right: streamGame.left
+                            anchors.bottom: parent.bottom
+                            anchors.rightMargin: units.largeSpacing
+                            text: model.title
+                            elide: Text.ElideRight
+                            opacity: 0.6
+                        }
                     }
                 }
             }
