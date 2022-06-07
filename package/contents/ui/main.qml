@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.1
 import QtGraphicalEffects 1.0
+import QtWebEngine 1.10
 
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
@@ -138,7 +139,7 @@ Item {
     Plasmoid.preferredRepresentation: Plasmoid.compactRepresentation
     
     Plasmoid.fullRepresentation: Item {
-        Layout.preferredWidth: units.gridUnit * 25
+        Layout.preferredWidth: units.gridUnit * 30
         Layout.preferredHeight: Screen.height * 0.45
 
         Component {
@@ -160,6 +161,7 @@ Item {
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
                         anchors.left: parent.left
+                        anchors.leftMargin: units.smallSpacing
                         width: height
                         source: streamsModel.followedChannels[model.user_id].profile_image_url
                         fillMode: Image.PreserveAspectCrop
@@ -189,6 +191,7 @@ Item {
                             anchors.right: parent.right
                             anchors.top: parent.top
                             anchors.bottom: parent.bottom
+                            anchors.rightMargin: units.smallSpacing
                             width: implicitWidth
                             text: model.viewer_count
                         }
@@ -199,8 +202,28 @@ Item {
                             elide: Text.ElideRight
                             anchors.left: parent.left
                             anchors.top: parent.top
+                            anchors.bottom: parent.bottom 
+                        }
+
+                        PlasmaCore.IconItem {
+                            id: gameIcon
+                            source: "media-playback-start"
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            width: height
+                            anchors.left: channelName.right
+                            anchors.leftMargin: units.largeSpacing
+                        }
+
+                        PlasmaComponents.Label {
+                            id: gameName
+                            text: model.game_name
+                            elide: Text.ElideRight
+                            anchors.left: gameIcon.right
+                            anchors.top: parent.top
                             anchors.bottom: parent.bottom
                             anchors.right: viewersCount.left
+                            anchors.leftMargin: units.smallSpacing
                         }
                     }
 
@@ -209,6 +232,7 @@ Item {
                         anchors.top: channelHeader.bottom
                         anchors.left: channelIcon.right
                         anchors.leftMargin: units.largeSpacing
+                        anchors.rightMargin: units.smallSpacing
                         anchors.bottom: parent.bottom
                         anchors.right: parent.right
                         text: model.title
