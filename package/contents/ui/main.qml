@@ -70,10 +70,10 @@ Item {
             console.log("Starting update");
             twitchRequest("users", function(res) {
                 let userId = res.data[0].id;
-                twitchRequest("users/follows?from_id="+userId+"&first=100", function(res) {
+                twitchRequest("channels/followed?user_id="+userId+"&first=100", function(res) {
                     let query = [];
-                    for (let followed of res.data) {
-                        query.push("id="+followed.to_id);
+                    for (let broadcast of res.data) {
+                        query.push("id="+broadcast.broadcaster_id);
                     }
                     twitchRequest("users?"+query.join("&"), function(res) {
                         for (let channel of res.data) streamsModel.followedChannels[channel.id] = channel;

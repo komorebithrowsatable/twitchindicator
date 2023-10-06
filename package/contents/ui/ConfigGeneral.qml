@@ -40,7 +40,7 @@ Item {
 
         function relogin() {
             if (!authFlow.visible) authFlow.show();
-            webView.url = "https://id.twitch.tv/oauth2/authorize?client_id=yoilemo3cudfjaqm6ukbew2g2mgm2v&redirect_uri=http://localhost&response_type=token+id_token&scope=openid";
+            webView.url = "https://id.twitch.tv/oauth2/authorize?client_id=yoilemo3cudfjaqm6ukbew2g2mgm2v&redirect_uri=http://localhost&response_type=token&scope=user%3Aread%3Afollows";
         }
     }
 
